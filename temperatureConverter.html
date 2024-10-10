@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-size: medium;
+}
+
+.converter-container {
+    background-color:whitesmoke;
+    padding: 50px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+input[type="number"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.unit-selection {
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px;
+    width: 100%;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#result {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+    </style>
+</head>
+<body>
+    <div class="converter-container">
+        <h1>Temperature Converter</h1>
+        <input type="number" id="temperature-input" placeholder="Enter temperature" required>
+        
+        <div class="unit-selection">
+            <label>
+                <input type="radio" name="unit" value="Celsius" checked>Celsius
+            </label>
+            <label>
+                <input type="radio" name="unit" value="Fahrenheit">Fahrenheit
+            </label>
+            <label>
+                <input type="radio" name="unit" value="Kelvin">Kelvin
+            </label>
+        </div>
+        
+        <button id="convert-button">Convert</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    const convertButton = document.getElementById('convert-button');
+    const temperatureInput = document.getElementById('temperature-input');
+    const resultDiv = document.getElementById('result');
+
+    convertButton.addEventListener('click', () => {
+        const temperature = parseFloat(temperatureInput.value);
+        const selectedUnit = document.querySelector('input[name="unit"]:checked').value;
+
+        if (isNaN(temperature)) {
+            resultDiv.textContent = 'Please enter a valid number!';
+            return;
+        }
+
+        let convertedTemperature;
+        let unit;
+
+        switch (selectedUnit) {
+            case 'Celsius':
+                convertedTemperature = (temperature * 9/5) + 32;
+                unit = 'Fahrenheit';
+                break;
+            case 'Fahrenheit':
+                convertedTemperature = (temperature - 32) * 5/9; 
+                unit = 'Celsius';
+                break;
+            case 'Kelvin':
+                if (temperature < 0) {
+                    resultDiv.textContent = 'Temperature in Kelvin cannot be negative!';
+                    return;
+                }
+                convertedTemperature = temperature - 273.15; 
+                unit = 'Celsius';
+                break;
+        }
+        resultDiv.textContent = `Converted Temperature: ${convertedTemperature.toFixed(2)} °${unit}`;
+    });
+});
+
+    </script>
+</body>
+</html>
